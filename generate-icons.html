@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head><title>Style Spy – Icon Generator</title></head>
+<body>
+<p>Generating icons… check the console for download links or click the buttons below.</p>
+<div id="output"></div>
+<script>
+// Generates all required icon sizes and triggers download
+const sizes = [16, 32, 48, 128];
+
+function drawIcon(size) {
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  const s = size;
+  const pad = s * 0.08;
+  const r = s / 2;
+
+  // Background circle with gradient
+  const grad = ctx.createLinearGradient(0, 0, s, s);
+  grad.addColorStop(0, '#818cf8');
+  grad.addColorStop(1, '#6366f1');
+
+  ctx.beginPath();
+  ctx.arc(r, r, r - pad, 0, Math.PI * 2);
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // White eye shape
+  ctx.beginPath();
+  ctx.ellipse(r, r, r * 0.65, r * 0.38, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.18)';
+  ctx.fill();
+
+  // Outer iris (white)
+  const irisR = r * 0.35;
+  ctx.beginPath();
+  ctx.arc(r, r, irisR, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.fill();
+
+  // Inner pupil (indigo)
+  const pupilR = r * 0.18;
+  ctx.beginPath();
+  ctx.arc(r, r, pupilR, 0, Math.PI * 2);
+  ctx.fillStyle = '#6366f1';
+  ctx.fill();
+
+  // Highlight dot
+  ctx.beginPath();
+  ctx.arc(r + irisR * 0.3, r - irisR * 0.3, pupilR * 0.4, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  ctx.fill();
+
+  return canvas;
+}
+
+const output = document.getElementById('output');
+sizes.forEach(size => {
+  const canvas = drawIcon(size);
+  const img = document.createElement('img');
+  img.src = canvas.toDataURL('image/png');
+  img.width = size;
+  img.height = size;
+  img.style.margin = '8px';
+  img.style.border = '1px solid #ccc';
+  output.appendChild(img);
+
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL('image/png');
+  a.download = `icon${size}.png`;
+  a.textContent = `Download icon${size}.png`;
+  a.style.display = 'block';
+  a.style.margin = '4px 8px';
+  output.appendChild(a);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Node / helper scripts (not needed at runtime in Chrome)
+node_modules/
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor directories
+.vscode/
+.idea/
+
+# Logs
+*.log

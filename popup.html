@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Style Spy</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════ -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="14" cy="14" r="13" fill="url(#logoGrad)" />
+          <!-- Eye shape -->
+          <path d="M4 14 C7 8, 21 8, 24 14 C21 20, 7 20, 4 14Z" fill="white" opacity="0.15"/>
+          <ellipse cx="14" cy="14" rx="5" ry="5" fill="white" opacity="0.9"/>
+          <circle cx="14" cy="14" r="2.5" fill="#6366f1"/>
+          <!-- Sparkle dots -->
+          <circle cx="9" cy="8" r="1" fill="white" opacity="0.6"/>
+          <circle cx="20" cy="9" r="1.2" fill="white" opacity="0.5"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#818cf8"/>
+              <stop offset="100%" stop-color="#6366f1"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="header-text">
+        <span class="app-name">Style Spy</span>
+        <span class="app-tagline">Design Token Extractor</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="site-badge" id="siteDomain">—</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION TABS
+  ═══════════════════════════════════════════ -->
+  <nav class="tabs" role="tablist" aria-label="Main navigation">
+    <button class="tab active" data-tab="colours" role="tab" aria-selected="true" aria-controls="panel-colours">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <circle cx="5" cy="5" r="3.5"/>
+        <circle cx="11" cy="5" r="3.5"/>
+        <circle cx="8" cy="11" r="3.5"/>
+      </svg>
+      Colours
+    </button>
+    <button class="tab" data-tab="fonts" role="tab" aria-selected="false" aria-controls="panel-fonts">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M2 3h12v2H9v8H7V5H2V3z"/>
+      </svg>
+      Fonts
+    </button>
+    <button class="tab" data-tab="kits" role="tab" aria-selected="false" aria-controls="panel-kits">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <rect x="1" y="2" width="6" height="6" rx="1"/>
+        <rect x="9" y="2" width="6" height="6" rx="1"/>
+        <rect x="1" y="10" width="6" height="4" rx="1"/>
+        <rect x="9" y="10" width="6" height="4" rx="1"/>
+      </svg>
+      Saved Kits
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       TOAST NOTIFICATION
+  ═══════════════════════════════════════════ -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ═══════════════════════════════════════════
+       PANELS
+  ═══════════════════════════════════════════ -->
+  <main class="panels">
+
+    <!-- ── COLOURS PANEL ── -->
+    <section class="panel active" id="panel-colours" role="tabpanel" aria-labelledby="tab-colours">
+      <div class="panel-content" id="coloursContent">
+        <div class="empty-state" id="coloursEmpty">
+          <div class="empty-icon">🎨</div>
+          <p class="empty-title">No colours extracted yet</p>
+          <p class="empty-desc">Click <strong>Analyze Page</strong> to extract the design system from the current website.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FONTS PANEL ── -->
+    <section class="panel" id="panel-fonts" role="tabpanel" aria-labelledby="tab-fonts">
+      <div class="panel-content" id="fontsContent">
+        <div class="empty-state" id="fontsEmpty">
+          <div class="empty-icon">🔤</div>
+          <p class="empty-title">No fonts extracted yet</p>
+          <p class="empty-desc">Click <strong>Analyze Page</strong> to detect typography from the current website.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SAVED KITS PANEL ── -->
+    <section class="panel" id="panel-kits" role="tabpanel" aria-labelledby="tab-kits">
+      <div class="panel-content" id="kitsContent">
+        <div class="empty-state" id="kitsEmpty">
+          <div class="empty-icon">📦</div>
+          <p class="empty-title">No saved kits yet</p>
+          <p class="empty-desc">Analyze a page then click <strong>Save Kit</strong> to store this site's design tokens.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER ACTIONS
+  ═══════════════════════════════════════════ -->
+  <footer class="footer">
+    <button class="btn btn-primary" id="btnAnalyze">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 2a5 5 0 1 1 0 10A5 5 0 0 1 8 3zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+      </svg>
+      Analyze Page
+    </button>
+    <button class="btn btn-secondary" id="btnSaveKit" disabled>
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M2 2h8l4 4v8H2V2zm7 0v4h4M6 11h4M8 9v4"/>
+        <path d="M2 2h8l4 4v8H2V2z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M6 11h4M8 9v4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      Save Kit
+    </button>
+    <button class="btn btn-ghost" id="btnExportCSS" disabled>
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 1v8M5 6l3 3 3-3M2 12h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      Export CSS
+    </button>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       SAVE KIT MODAL
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="saveKitModal" role="dialog" aria-modal="true" aria-labelledby="saveKitTitle" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="saveKitTitle">Save Style Kit</h2>
+        <button class="modal-close" id="saveKitClose" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label" for="kitNameInput">Kit Name</label>
+        <input
+          type="text"
+          class="form-input"
+          id="kitNameInput"
+          placeholder="e.g. Apple Design System"
+          maxlength="60"
+          autocomplete="off"
+        />
+        <p class="form-hint" id="kitNameHint"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="saveKitCancel">Cancel</button>
+        <button class="btn btn-primary" id="saveKitConfirm">Save Kit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       RENAME KIT MODAL
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="renameKitModal" role="dialog" aria-modal="true" aria-labelledby="renameKitTitle" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="renameKitTitle">Rename Kit</h2>
+        <button class="modal-close" id="renameKitClose" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label" for="renameKitInput">New Name</label>
+        <input
+          type="text"
+          class="form-input"
+          id="renameKitInput"
+          placeholder="Enter new kit name"
+          maxlength="60"
+          autocomplete="off"
+        />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="renameKitCancel">Cancel</button>
+        <button class="btn btn-primary" id="renameKitConfirm">Rename</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       EXPORT CSS MODAL
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="exportModal" role="dialog" aria-modal="true" aria-labelledby="exportTitle" hidden>
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exportTitle">Export CSS Variables</h2>
+        <button class="modal-close" id="exportClose" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <textarea class="css-preview" id="cssPreview" readonly aria-label="Generated CSS variables" spellcheck="false"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="exportCancel">Cancel</button>
+        <button class="btn btn-secondary" id="exportCopyCSS">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <rect x="4" y="4" width="9" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M3 3V2H1v11h2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          Copy CSS
+        </button>
+        <button class="btn btn-primary" id="exportDownloadCSS">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M8 1v8M5 6l3 3 3-3M2 12h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          Download .css
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       VIEW KIT MODAL
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="viewKitModal" role="dialog" aria-modal="true" aria-labelledby="viewKitTitle" hidden>
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="viewKitTitle"></h2>
+          <span class="modal-subtitle" id="viewKitMeta"></span>
+        </div>
+        <button class="modal-close" id="viewKitClose" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal-body modal-body-scroll" id="viewKitBody">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="viewKitCloseBtn">Close</button>
+        <button class="btn btn-secondary" id="viewKitExport">Export CSS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div class="loading-overlay" id="loadingOverlay" hidden>
+    <div class="spinner" aria-label="Analyzing page…"></div>
+    <span class="loading-text">Analyzing page…</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
